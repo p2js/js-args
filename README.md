@@ -1,12 +1,12 @@
-# CL-args
+# structured-args
 
 A feature-complete, type safe and highly flexible command line argument parsing library for JavaScript.
 
 ```typescript
-import { cl_args } from "cl-args";
-import { boolean, string } from "cl-args/option-types";
+import { parse_args } from "structured-args";
+import { boolean, string } from "structured-args/option-types";
 
-const args = cl_args({
+const args = parse_args({
     verbose: { alias: "v", type: boolean() },
     name: { alias: "n", type: string(), default: "world" }
 });
@@ -34,18 +34,16 @@ Parsing supports:
 - Automatic type conversion and validation via option-type processors
 - Collecting positional arguments (standalone values) into the output array
 
-The output object of `cl_args` is an array with the numeric indices corresponding to the standalone positional arguments, and additional fields for options that were passed (or that have a default value).
+The output object of `parse_args` is an array with the numeric indices corresponding to the standalone positional arguments, and additional fields for options that were passed (or that have a default value).
 
 ```typescript
-const args = cl_args({
+const args = parse_args({
     recursive: { alias: "r", type: boolean() },
     depth: { type: int(), default: 1 }
 });
 
 console.log(args[0]);
 console.log(args.recursive);
-// $ node index.js -r --depth 3 path/to/dir
-// args == [ 'path/to/dir', recursive: true, depth: 3 ]
 ```
 ```bash
 $ node index.js -r --depth 3 path/to/dir
@@ -55,7 +53,7 @@ true
 
 ## Error handling
 
-By default, `cl-args` prints a descriptive error message to `stderr` and exits the process when it encounters invalid input.
+By default, `parse_args` prints a descriptive error message to `stderr` and exits the process when it encounters invalid input.
 
 ```bash
 # Missing value for non-boolean flag
@@ -73,11 +71,11 @@ Argument error: port: Must be an integer between 1 and 65535 (Received: '99999')
 
 ### Advanced usage
 
-`cl-args` handles complex scenarios like multi-value flags and custom type validation out of the box.
+`parse_args` handles complex scenarios like multi-value flags and custom type validation out of the box.
 
 ```typescript
-import { cl_args } from "cl-args";
-import { int, list, boolean } from "cl-args/option-types";
+import { parse_args } from "structured-args";
+import { int, list, boolean } from "structured-args/option-types";
 
 const options = {
     port: { alias: "p", type: int(1, 65535), default: 8080 },
@@ -85,7 +83,8 @@ const options = {
     debug: { alias: "d", type: boolean() }
 };
 
-const args = cl_args(options);
+const args = parse_args(options);
+console.log(args);
 ```
 
 ```bash
@@ -95,7 +94,7 @@ $ node node index.js -p 3000 --tags=web,api prod --debug extra_value
 
 ### Configuration
 
-The `cl_args` function accepts an optional configuration object:
+The `parse_args` function accepts an optional configuration object:
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -107,7 +106,7 @@ The `cl_args` function accepts an optional configuration object:
 
 ## Option types
 
-The library includes several built-in processors in `cl-args/option-types`:
+The library includes several built-in processors in `structured-args/option-types`:
 
 | Processor                | Description                                                 |
 |            ---           |                           ---                               |
@@ -129,7 +128,7 @@ const absolutePath = (arg: string) => {
     return arg;
 };
 
-const args = cl_args({ path: { type: absolutePath } });
+const args = parse_args({ path: { type: absolutePath } });
 ```
 
 If a custom processor throws an error, the library catches it and appends the received value:
@@ -144,8 +143,8 @@ Argument error: path: Must be an absolute path (Received: './relative/path')
 This library can also be used to generate a flag table to use in help menus:
 
 ```typescript
-import { help_string } from "cl-args";
-import { boolean, string } from "cl-args/option-types";
+import { help_string } from "structured-args";
+import { boolean, string } from "structured-args/option-types";
 
 const options = {
     verbose: { alias: "v", type: boolean(), description: "Show verbose output" },
@@ -157,6 +156,7 @@ console.log(help_string(options));
 ```
 
 Output:
+
 ```text
 Usage: my-app [options]
 

@@ -143,7 +143,7 @@ function is_number(str: string) {
  * @param config 
  * @returns 
  */
-export function cl_args<O extends Options>(options: O, config: Partial<ArgsConfig> = {}): ParsedArgs<O> {
+export function parse_args<O extends Options>(options: O, config: Partial<ArgsConfig> = {}): ParsedArgs<O> {
     let collect_values = config.collect_values ?? true,
         collect_unknown_options = config.collect_unknown_options ?? false,
         allow_double_dash_delimeter = config.allow_double_dash_delimeter ?? true,

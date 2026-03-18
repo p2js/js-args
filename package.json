@@ -1,5 +1,5 @@
 {
-  "name": "cl-args",
+  "name": "structured-args",
   "version": "1.0.0",
   "description": "A feature-complete, type safe and highly flexible command line argument parsing library",
   "author": "Alfio (https://github.com/p2js)",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/p2js/cl-args.git"
+    "url": "https://github.com/p2js/structured-args.git"
   },
   "exports": {
     ".": {
@@ -29,7 +29,7 @@
   "keywords": [
     "cli",
     "command-line-args",
-    "cl-args",
+    "argparse",
     "getopt",
     "parse",
     "parser"
