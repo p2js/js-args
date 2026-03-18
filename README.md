@@ -1,6 +1,6 @@
 # CL-args
 
-A feature-complete, type safe and flexible command line argument parsing library for JavaScript.
+A feature-complete, type safe and highly flexible command line argument parsing library for JavaScript.
 
 ```typescript
 import { cl_args } from "cl-args";

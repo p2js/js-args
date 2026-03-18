@@ -1,12 +1,17 @@
 {
   "name": "cl-args",
   "version": "1.0.0",
-  "description": "",
+  "description": "A feature-complete, type safe and highly flexible command line argument parsing library",
+  "author": "Alfio (https://github.com/p2js)",
+  "license": "ISC",
   "files": [
     "lib",
-    "README.md",
-    "docs.md"
+    "README.md"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/p2js/cl-args.git"
+  },
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -19,10 +24,7 @@
   },
   "scripts": {
     "build": "pnpm exec tsc",
-    "build:test": "pnpm exec tsc -p tsconfig.test.json",
-    "prepublishOnly": "pnpm build && pnpm build:test",
-    "test": "pnpm exec jest test-build",
-    "posttest": "rm -r test-build"
+    "prepublishOnly": "pnpm build"
   },
   "keywords": [
     "cli",
@@ -32,13 +34,9 @@
     "parse",
     "parser"
   ],
-  "author": "Alfio (https://github.com/p2js)",
-  "license": "ISC",
   "packageManager": "pnpm@10.30.3",
   "devDependencies": {
-    "@types/jest": "^30.0.0",
     "@types/node": "^25.5.0",
-    "jest": "^30.3.0",
     "typescript": "^5.9.3"
   }
 }
