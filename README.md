@@ -18,7 +18,6 @@ if (args.verbose) console.log("Verbose mode enabled.");
 ```bash
 $ node index.js -v=false --name "CLI"
 Hello, CLI!
-Verbose mode enabled.
 ```
 
 ## Parsing
