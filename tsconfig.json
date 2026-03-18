@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "nodenext",
+        "lib": [
+            "ESNext"
+        ],
+        "outDir": "lib",
+        "declaration": true,
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
+}
