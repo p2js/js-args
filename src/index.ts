@@ -1,6 +1,8 @@
 import process from "node:process";
 import util from "node:util";
-import { boolean, string } from "./option_types";
+
+import { string, one_of, not_one_of, boolean, int, float, list } from "./option_types";
+export { string, one_of, not_one_of, boolean, int, float, list };
 
 /**
  * A processing function for flag values.
@@ -167,7 +169,7 @@ export function parse_args<O extends Options>(options: O, config: Partial<ArgsCo
     while (argv[arg_index] !== undefined) {
         let arg = argv[arg_index];
 
-        if (arg[0] != "-" || double_dash_delimeter_encountered) {
+        if (arg[0] != "-" || double_dash_delimeter_encountered || is_number(arg.slice(1))) {
             // Lone value, either collect or error
             if (collect_values) {
                 out.push(arg);
@@ -192,8 +194,8 @@ export function parse_args<O extends Options>(options: O, config: Partial<ArgsCo
                     error(`Unrecognised option alias '${arg[idx_in_arg]}'`);
                     continue;
                 };
-                // Enable any boolean option encountered
-                if (options[alias_option].type == boolean()) {
+                // Enable any boolean option encountered (if not explicitly set with =)
+                if (options[alias_option].type == boolean() && arg[idx_in_arg + 1] != "=") {
                     out[alias_option] = true;
                     continue;
                 }
@@ -280,5 +282,6 @@ export function parse_args<O extends Options>(options: O, config: Partial<ArgsCo
         out[option_name] = option?.multiple ? transformed_values : transformed_values[0];
         arg_index += 1;
     }
+
     return out as ParsedArgs<O>;
 }
