@@ -64,7 +64,7 @@ export function help_string<O extends Options>(options: O, config: Partial<HelpC
     let exclude_options_without_description = config.descriptions_only ?? false,
         spaces_before_option = " ".repeat(config.spaces_before_option ?? 1),
         spaces_after_option = " ".repeat(config.spaces_after_option ?? 4),
-        option_format = config.option_format === undefined ? x => x : (flag: string) => util.styleText(config.option_format, flag);
+        option_format: ArgProcessor<string> = config.option_format === undefined ? x => x : (flag) => util.styleText(config.option_format!, flag);
 
     let option_strings = Object.entries(options)
         .filter(([_, { description }]) => !exclude_options_without_description || description)
@@ -279,7 +279,13 @@ export function parse_args<O extends Options>(options: O, config: Partial<ArgsCo
             error(`${option_name}: ` + transform_error as string + ` (Received: '${raw_values}')`);
         }
         // Set the option to the value (or values if expecting multiple)
-        out[option_name] = option?.multiple ? transformed_values : transformed_values[0];
+        if (option?.multiple) {
+            out[option_name] ??= [];
+            out[option_name] = [...out[option_name], ...transformed_values!];
+        } else {
+            out[option_name] = transformed_values![0];
+        }
+        // out[option_name] = option?.multiple ? transformed_values : transformed_values![0];
         arg_index += 1;
     }
 

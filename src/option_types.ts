@@ -1,16 +1,16 @@
 import { ArgProcessor } from ".";
 
-const string_transformer = arg => arg;
-export function string(): ArgProcessor {
+const string_transformer: ArgProcessor = arg => arg;
+export function string() {
     return string_transformer;
 }
 
 export function one_of(...options: string[]): ArgProcessor {
     return (arg: string) => {
-        if (!options.includes(arg)) {
-            throw `Must be one of: ${options.join(", ")}`;
+        if (options.includes(arg)) {
+            return arg;
         }
-        return arg;
+        throw `Must be one of: ${options.join(", ")}`;
     }
 }
 
@@ -23,8 +23,8 @@ export function not_one_of(...options: string[]): ArgProcessor {
     }
 }
 
-const boolean_transformer = arg => arg !== "false";
-export function boolean(): ArgProcessor<boolean> {
+const boolean_transformer: ArgProcessor<boolean> = arg => arg !== "false";
+export function boolean() {
     return boolean_transformer;
 }
 
@@ -51,4 +51,3 @@ export function float(min = -Infinity, max = +Infinity): ArgProcessor<number> {
 export function list(separator: string = ","): ArgProcessor<string[]> {
     return arg => arg.split(separator);
 }
-

@@ -5,10 +5,11 @@
         "lib": [
             "ESNext"
         ],
+        "rootDir": "src",
         "outDir": "lib",
         "declaration": true,
+        "types": [
+            "node"
+        ]
     },
-    "include": [
-        "src/**/*.ts"
-    ]
 }

@@ -28,7 +28,7 @@ Parsing supports:
 - Assigning values with a `=` sign, eg `--letter=a`
 - Using a standalone `--` to delimit options and values
 - Treating negative numbers as values rather than flags (including `Infinity` and `-Infinity`)
-- Optionally accepting multiple values for an option
+- Optionally accepting multiple values for an option, which are joined if the flag is passed more than once
 - Automatic type conversion and validation via option-type processors
 - Collecting positional arguments (standalone values) into the output array
 
