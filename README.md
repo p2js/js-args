@@ -2,7 +2,7 @@
 
 A feature-complete, type safe and highly flexible command line argument parsing library for JavaScript.
 
-```typescript
+```ts
 import { parse_args, boolean, string } from "structured-args";
 
 const args = parse_args({
@@ -34,7 +34,7 @@ Parsing supports:
 
 The output object of `parse_args` is an array with the numeric indices corresponding to the standalone positional arguments, and additional fields for options that were passed (or that have a default value).
 
-```typescript
+```ts
 const args = parse_args({
     recursive: { alias: "r", type: boolean() },
     depth: { type: int(), default: 1 }
@@ -62,6 +62,11 @@ Argument error: Expected a value after option 'name' (Found nothing)
 $ node index.js --unknown
 Argument error: Unrecognised option 'unknown'
 
+# Alias as option
+$ node test --v
+Argument error: Unrecognised option 'v'.
+Did you mean to use the alias '-v'?
+
 # Type validation failure (from built-in processor - see example below)
 $ node index.js --port=99999
 Argument error: port: Must be an integer between 1 and 65535 (Received: '99999')
@@ -71,7 +76,7 @@ Argument error: port: Must be an integer between 1 and 65535 (Received: '99999')
 
 `parse_args` handles complex scenarios like multi-value flags and custom type validation out of the box.
 
-```typescript
+```ts
 import { parse_args, int, list, boolean } from "structured-args";
 
 const options = {
@@ -108,7 +113,7 @@ The library includes several built-in processors in `structured-args/option-type
 | Processor                | Description                                                           |
 | ------------------------ | --------------------------------------------------------------------- |
 | `string()`               | Returns the argument as a string.                                     |
-| `boolean()`              | Returns `true` (can be explicitly set to `false` using `=false`).     |
+| `boolean()`              | Returns `true` (can be explicitly set using `=true` or `=false`).     |
 | `int(min, max)`          | Validates and returns an integer, optionally between `min` and `max`. |
 | `float(min, max)`        | Validates and returns a number, optionally between `min` and `max`.   |
 | `one_of(...options)`     | Ensures value is one of the provided strings.                         |
@@ -119,7 +124,7 @@ The library includes several built-in processors in `structured-args/option-type
 
 A flag type is simply a function that takes a `string` and returns a value of any type. If the input is invalid, it should throw an error message as a string.
 
-```typescript
+```ts
 const absolutePath = (arg: string) => {
     if (!arg.startsWith("/")) throw "Must be an absolute path";
     return arg;
@@ -139,7 +144,7 @@ Argument error: path: Must be an absolute path (Received: './relative/path')
 
 This library can also be used to generate a flag table to use in help menus:
 
-```typescript
+```ts
 import { help_string, boolean, string } from "structured-args";
 
 const options = {

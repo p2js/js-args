@@ -1,8 +1,8 @@
 import { ArgProcessor } from ".";
 
-const string_transformer: ArgProcessor = arg => arg;
+const string_processor: ArgProcessor = arg => arg;
 export function string() {
-    return string_transformer;
+    return string_processor;
 }
 
 export function one_of(...options: string[]): ArgProcessor {
@@ -23,9 +23,14 @@ export function not_one_of(...options: string[]): ArgProcessor {
     }
 }
 
-const boolean_transformer: ArgProcessor<boolean> = arg => arg !== "false";
+const boolean_processor: ArgProcessor<boolean> = arg => {
+    if (arg === "false") return false;
+    if (arg === "true") return true;
+    throw "expected true or false";
+}
+
 export function boolean() {
-    return boolean_transformer;
+    return boolean_processor;
 }
 
 export function int(min = -Infinity, max = +Infinity): ArgProcessor<number> {
@@ -48,6 +53,6 @@ export function float(min = -Infinity, max = +Infinity): ArgProcessor<number> {
     }
 }
 
-export function list(separator: string = ","): ArgProcessor<string[]> {
+export function list(separator: string | RegExp = ","): ArgProcessor<string[]> {
     return arg => arg.split(separator);
-}
+}   
